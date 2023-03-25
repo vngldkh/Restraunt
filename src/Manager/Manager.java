@@ -1,7 +1,7 @@
 package manager;
 
-import visitor.VisOrdDish;
 import simulation.Simulation;
+import visitor.VisitorAgent;
 
 import java.util.ArrayList;
 
@@ -12,12 +12,11 @@ public class Manager {
     public Manager(Simulation simulation) {
         this.simulation = simulation;
     }
-    public MenuDish[] ProvideMenu() {
-        return simulation.getRestaurant().getMenu();
+    public Menu ProvideMenu() {
+        return new Menu(simulation.getRestaurant().getMenu());
     }
-    public void NewOrder(VisOrdDish[] order) {
-        for (VisOrdDish dish : order) {
 
-        }
+    public void AcceptOrder(VisitorAgent visitor, ArrayList<MenuDish> order) {
+        orders.add(new OrderAgent(simulation, visitor, order));
     }
 }
