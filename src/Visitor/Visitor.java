@@ -1,13 +1,7 @@
-package Visitor;
+package visitor;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-public class Visitor {
-    String name;
-    Date started; // "2023-02-28T10:12:37",
-    Date ended; // "2023-02-28T10:12:37",
-    int total;
-    ArrayList<VisOrdDish> dishes;
+public record Visitor(String name, Date started, Date ended, int total, VisOrdDish[] dishes) {
 
 }
