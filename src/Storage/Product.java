@@ -1,6 +1,6 @@
-package Storage;
+package storage;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Product {
     int prod_item_id;
@@ -10,22 +10,18 @@ public class Product {
     String prod_item_unit;
     double prod_item_quantity;
     double prod_item_cost;
-    Date prod_item_delivered;
-    Date prod_item_valid_until;
-    //String prod_item_delivered;
-    //String prod_item_valid_until;
+    LocalDateTime prod_item_delivered;
+    LocalDateTime prod_item_valid_until;
 
     public Product(int prod_item_id,
-                   int prod_item_type,
-                   String prod_item_name,
-                   String prod_item_company,
-                   String prod_item_unit,
-                   double prod_item_quantity,
-                   double prod_item_cost,
-                   Date prod_item_delivered,
-                   Date prod_item_valid_until) {
-        //String prod_item_delivered,
-        //String prod_item_valid_until){
+                          int prod_item_type,
+                          String prod_item_name,
+                          String prod_item_company,
+                          String prod_item_unit,
+                          double prod_item_quantity,
+                          double prod_item_cost,
+                          LocalDateTime prod_item_delivered,
+                          LocalDateTime prod_item_valid_until) {
 
         this.prod_item_id = prod_item_id;
         this.prod_item_type = prod_item_type;
@@ -37,4 +33,6 @@ public class Product {
         this.prod_item_delivered = prod_item_delivered;
         this.prod_item_valid_until = prod_item_valid_until;
     }
+
+
 }

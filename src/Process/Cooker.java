@@ -1,4 +1,4 @@
-package Process;
+package process;
 
 public class Cooker {
     int cook_id;

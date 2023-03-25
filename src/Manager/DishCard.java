@@ -1,6 +1,6 @@
-package Manager;
+package manager;
 
-import Process.OperationType;
+import process.OperationType;
 
 import java.util.Date;
 import java.util.ArrayList;

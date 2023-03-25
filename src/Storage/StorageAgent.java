@@ -1,12 +1,14 @@
-package Storage;
+package storage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import simulation.Simulation;
 
 public class StorageAgent {
     // key - product_type, value - list of that type's products (sorted in ascending order of expiration time).
     HashMap<Integer, ArrayList<Product>> storage;
+    Simulation simulation;
 
     public StorageAgent(Product[] products) {
         storage = new HashMap<>();
@@ -19,10 +21,10 @@ public class StorageAgent {
         }
     }
 
-    public ProductTypeAgent ReserveProduct(int prod_type, int requested_quantity, Date current_time) {
+    public ProductTypeAgent ReserveProduct(int prod_type, int requested_quantity, LocalDateTime current_time) {
         if (!storage.containsKey(prod_type)) {
-            return new ProductTypeAgent(prod_type, new ArrayList<>(), requested_quantity, current_time);
+            return new ProductTypeAgent(simulation, prod_type, new ArrayList<>(), requested_quantity);
         }
-        return new ProductTypeAgent(prod_type, storage.get(prod_type), requested_quantity, current_time);
+        return new ProductTypeAgent(simulation, prod_type, storage.get(prod_type), requested_quantity);
     }
 }

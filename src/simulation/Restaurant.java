@@ -1,11 +1,11 @@
 package simulation;
 
-import Manager.DishCard;
-import Manager.Manager;
-import Manager.MenuDish;
-import Storage.StorageAgent;
-import Process.CookerAgent;
-import Process.EquipmentAgent;
+import manager.DishCard;
+import manager.Manager;
+import manager.MenuDish;
+import storage.StorageAgent;
+import process.CookerAgent;
+import process.EquipmentAgent;
 
 public class Restaurant {
     private Simulation simulation;
@@ -18,5 +18,9 @@ public class Restaurant {
 
     public MenuDish[] getMenu() {
         return menu;
+    }
+
+    public Manager getManager() {
+        return manager;
     }
 }

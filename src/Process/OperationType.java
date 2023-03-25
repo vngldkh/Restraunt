@@ -1,4 +1,4 @@
-package Process;
+package process;
 
 public class OperationType {
     int oper_type_id;
