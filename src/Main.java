@@ -26,7 +26,7 @@ public class Main {
         equipmentTypes = deserializerEquipmentTypes.equipmentTypesDeserialize();
 
         int check = 0;
-    // TODO: snakeCase in the classes
+    // TODO: replace snake_case in the classes with camelCase
 
     }
 }
