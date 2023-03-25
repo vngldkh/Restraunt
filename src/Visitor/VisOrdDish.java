@@ -1,6 +1,5 @@
-package Visitor;
+package visitor;
 
-public class VisOrdDish {
-    int ord_dish_id;
-    int menu_dish;  //menu_dish_id
+public record VisOrdDish (int ord_dish_id, int menu_dish) {
+
 }
