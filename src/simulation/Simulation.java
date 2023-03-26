@@ -1,10 +1,15 @@
 package simulation;
 
+import deserializer.OperationID;
+import deserializer.OperationSerialized;
+import deserializer.ProcessSerialized;
+import deserializer.Recorder;
 import manager.DishCard;
 import manager.MenuDish;
 import process.Cooker;
 import process.Equipment;
 import process.OperationType;
+import process.ProcessAgent;
 import storage.Product;
 import visitor.Visitor;
 import visitor.VisitorAgent;
@@ -20,6 +25,7 @@ public class Simulation implements Runnable {
     private int subscribers;
     private int respondCount;
     public final Object monitor = new Object();
+    private final Recorder recorder = new Recorder();
 
     public Simulation(LocalDateTime dateTime, ArrayList<Product> products,
                       ArrayList<Cooker> cookers, ArrayList<Equipment> equipment, ArrayList<OperationType> operations,
@@ -55,6 +61,19 @@ public class Simulation implements Runnable {
 
     public synchronized void respond() {
         ++respondCount;
+    }
+    public synchronized void addProcess(ProcessAgent processAgent) {
+        ArrayList<OperationID> operationIDS = new ArrayList<>();
+        for (var operationAgent : processAgent.getUtilized()) {
+            OperationSerialized operationSerialized = operationAgent.getSerialized();
+            recorder.addOperation(operationSerialized);
+            operationIDS.add(operationSerialized.getId());
+        }
+        ProcessSerialized process = new ProcessSerialized(processAgent.getId(), processAgent.getMenuDishId(),
+                                                           processAgent.getStartTime(), processAgent.getFinishTime(),
+                                                           operationIDS, false);
+        recorder.addProcess(process);
+
     }
 
     @Override

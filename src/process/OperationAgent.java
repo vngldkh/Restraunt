@@ -1,5 +1,6 @@
 package process;
 
+import deserializer.OperationSerialized;
 import simulation.Simulation;
 import storage.ProductTypeAgent;
 
@@ -7,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class OperationAgent implements Runnable {
-    private long id;
+    private final long id;
+    private final long procId;
+    private final long dishCardId;
     private Simulation simulation;
     private Operation operation;
     private ArrayList<ProductTypeAgent> productTypeAgents = new ArrayList<>();
@@ -22,8 +25,10 @@ public class OperationAgent implements Runnable {
     private int cookerId;
     private int equipmentId;
 
-    OperationAgent(long id, Simulation simulation, Operation operation, int menuDishId) {
+    OperationAgent(long id, long procId, long dishCardId, Simulation simulation, Operation operation, int menuDishId) {
         this.id = id;
+        this.procId = procId;
+        this.dishCardId = dishCardId;
         this.simulation = simulation;
         this.operation = operation;
         this.menuDishId = menuDishId;
@@ -47,6 +52,10 @@ public class OperationAgent implements Runnable {
         return cancelled;
     }
 
+    public OperationSerialized getSerialized() {
+        return new OperationSerialized(id, procId, dishCardId, startTime.toString(),
+                                       endTime.toString(), equipmentId, cookerId, false);
+    }
     @Override
     public void run() {
         CookerAgent executor = simulation.getRestaurant().getManager().getAvailableExecutor();
