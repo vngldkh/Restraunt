@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Manual {
-    HashMap<Integer, Operation> manual = new HashMap<>();
+    HashMap<Integer, OperationType> manual = new HashMap<>();
 
-    public Manual(ArrayList<Operation> operations) {
+    public Manual(ArrayList<OperationType> operations) {
         for (var operation : operations) {
-            manual.put(operation.oper_type(), operation);
+            manual.put(operation.oper_type_id(), operation);
         }
     }
 
-    public Operation getOperation(int operType) {
+    public OperationType getOperation(int operType) {
         return manual.get(operType);
     }
 }

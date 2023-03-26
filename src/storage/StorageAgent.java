@@ -9,7 +9,7 @@ public class StorageAgent {
     final HashMap<Integer, ArrayList<Product>> storage;
     final Simulation simulation;
 
-    public StorageAgent(Simulation simulation, Product[] products) {
+    public StorageAgent(Simulation simulation, ArrayList<Product> products) {
         this.simulation = simulation;
         storage = new HashMap<>();
         for (Product product : products) {

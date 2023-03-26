@@ -17,6 +17,9 @@ public class MenuDish {
     public int getMenuDishId() {
         return menu_dish_id;
     }
+    public int getDishCardId() {
+        return menu_dish_card;
+    }
 
     public boolean getMenuDishActive() {
         return menu_dish_active;

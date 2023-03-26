@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class OperationAgent implements Runnable {
+    private long id;
     private Simulation simulation;
     private Operation operation;
     private ArrayList<ProductTypeAgent> productTypeAgents = new ArrayList<>();
@@ -14,13 +15,20 @@ public class OperationAgent implements Runnable {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private long secondsPassed = 0;
+    private long secondsNeeded;
+    private boolean started = false;
     private boolean done = false;
+    private boolean cancelled = false;
+    private int cookerId;
+    private int equipmentId;
 
-    OperationAgent(Simulation simulation, Operation operation, int menuDishId) {
+    OperationAgent(long id, Simulation simulation, Operation operation, int menuDishId) {
+        this.id = id;
         this.simulation = simulation;
         this.operation = operation;
         this.menuDishId = menuDishId;
         startTime = simulation.getCurrentTime();
+        secondsNeeded = (long) (operation.oper_time() * 60);
     }
 
     int getAsyncPoint() {
@@ -29,6 +37,14 @@ public class OperationAgent implements Runnable {
 
     boolean isDone() {
         return done;
+    }
+
+    boolean hasStarted() {
+        return started;
+    }
+
+    boolean isCancelled() {
+        return cancelled;
     }
 
     @Override
@@ -42,10 +58,16 @@ public class OperationAgent implements Runnable {
         if (equipment == null) {
             simulation.getRestaurant().getManager().freeExecutor(executor);
             return;
+        } else if (equipment.isNull()) {
+            simulation.getRestaurant().getManager().makeMenuDishUnavailable(menuDishId);
+            cancelled = true;
+            return;
         }
 
         ArrayList<OperProduct> operProducts = operation.oper_products();
         var storage = simulation.getRestaurant().getStorage();
+        cookerId = executor.getId();
+        equipmentId = equipment.getId();
         for (var operProduct : operProducts) {
             var productTypeAgent = storage.ReserveProduct(operProduct.prod_type(),
                                                                          operProduct.prod_quantity());
@@ -56,35 +78,39 @@ public class OperationAgent implements Runnable {
                 for (var agent : productTypeAgents) {
                     agent.CancelReservation();
                 }
+                cancelled = true;
                 return;
             }
         }
 
         simulation.subscribe();
+        started = true;
+        System.out.println("Операция " + id + " началась: " + simulation.getCurrentTime());
 
-        while (secondsPassed != ((long) operation.oper_time() * 60)) {
+        while (secondsPassed < secondsNeeded) {
             simulation.respond();
+
             synchronized (simulation.monitor) {
                 try {
-                    wait(1);
+                    simulation.monitor.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
+
             ++secondsPassed;
         }
 
+        System.out.println("Операция " + id + " закончилась: " + simulation.getCurrentTime());
         simulation.getRestaurant().getManager().freeExecutor(executor);
         equipment.Free();
-
         endTime = simulation.getCurrentTime();
-
         simulation.unsubscribe();
         done = true;
-        Log();
+        log();
     }
 
-    void Log() {
+    void log() {
         // TODO
     }
 }

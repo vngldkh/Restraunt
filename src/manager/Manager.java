@@ -1,5 +1,6 @@
 package manager;
 
+import process.Cooker;
 import process.CookerAgent;
 import process.EquipmentAgent;
 import process.Manual;
@@ -8,13 +9,23 @@ import visitor.VisitorAgent;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Manager {
     Simulation simulation;
     CopyOnWriteArrayList<CookerAgent> availableCookers = new CopyOnWriteArrayList<>();
+    AtomicLong processId;
+    AtomicLong operationId;
 
-    public Manager(Simulation simulation) {
+    public Manager(Simulation simulation, ArrayList<Cooker> cookers) {
         this.simulation = simulation;
+        for (var cooker : cookers) {
+            if (cooker.cookActive()) {
+                availableCookers.add(new CookerAgent(cooker));
+            }
+        }
+        processId = new AtomicLong(0);
+        operationId = new AtomicLong(0);
     }
 
     public Menu provideMenu() {
@@ -22,7 +33,7 @@ public class Manager {
     }
 
     public Handbook provideHandBook() {
-        return new Handbook(simulation.getRestaurant().getDishCards());
+        return new Handbook(simulation, simulation.getRestaurant().getDishCards());
     }
 
     public Manual provideManual() {
@@ -32,6 +43,7 @@ public class Manager {
     public OrderAgent acceptOrder(VisitorAgent visitor, ArrayList<MenuDish> order) {
         var orderAgent = new OrderAgent(simulation, visitor, order);
         simulation.getRestaurant().newOrder(orderAgent);
+        simulation.execute(orderAgent);
         return orderAgent;
     }
 
@@ -53,14 +65,16 @@ public class Manager {
     public synchronized EquipmentAgent reserveEquipment(int id) {
         var equipments = simulation.getRestaurant().getEquipments();
         if (!equipments.containsKey(id)) {
-            return null;
+            return new EquipmentAgent(null);
         }
         var equipment = equipments.get(id);
-        if (!equipment.isAvailable()) {
-            return null;
+        for (var item : equipment) {
+            if (item.isAvailable()) {
+                item.Use();
+                return item;
+            }
         }
-        equipment.Use();
-        return equipment;
+        return null;
     }
 
     public void makeMenuDishUnavailable(int menuDishId) {
@@ -68,5 +82,13 @@ public class Manager {
         if (menu.containsKey(menuDishId)) {
             menu.get(menuDishId).makeUnavailable();
         }
+    }
+
+    public synchronized long getProcessId() {
+        return processId.incrementAndGet();
+    }
+
+    public synchronized long getOperationId() {
+        return operationId.incrementAndGet();
     }
 }

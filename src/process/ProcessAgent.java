@@ -5,50 +5,50 @@ import simulation.Simulation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProcessAgent implements Runnable {
+    long id;
     Simulation simulation;
     DishCard dishCard;
-    ArrayList<OperationAgent> operationAgents;
+    CopyOnWriteArrayList<OperationAgent> operationAgents;
     int menuDishId;
     int currentAsyncPoint = 0;
     LocalDateTime timeStart;
     LocalDateTime timeFinish;
     boolean done = false;
 
-    public ProcessAgent(Simulation simulation, DishCard dishCard, int menuDishId) {
+    public ProcessAgent(long id, Simulation simulation, DishCard dishCard, int menuDishId) {
+        this.id = id;
         this.simulation = simulation;
         this.dishCard = dishCard;
         this.menuDishId = menuDishId;
     }
 
-    public boolean isDone() {
-        return done;
-    }
-
     @Override
     public void run() {
         timeStart = simulation.getCurrentTime();
-
-        Manual manual = simulation.getRestaurant().getManager().provideManual();
-        ArrayList<Operation> operationTypes = dishCard.operations();
-        operationAgents = new ArrayList<>();
-        for (var operationType : operationTypes) {
-            Operation operation = manual.getOperation(operationType.oper_type());
-            OperationAgent operationAgent = new OperationAgent(simulation, operation, dishCard.card_id());
+        System.out.println("Процесс " + id + " начался: " + timeStart);
+        operationAgents = new CopyOnWriteArrayList<>();
+        if (dishCard == null) {
+            return;
+        }
+        for (var operation : dishCard.operations()) {
+            OperationAgent operationAgent = new OperationAgent(simulation.getRestaurant().getManager().getOperationId(),
+                                                               simulation, operation, dishCard.card_id());
             operationAgents.add(operationAgent);
         }
 
         while (!operationAgents.isEmpty()) {
             for (var operationAgent : operationAgents) {
-                if (operationAgent.getAsyncPoint() == currentAsyncPoint) {
+                if (operationAgent.getAsyncPoint() == currentAsyncPoint && !operationAgent.hasStarted()) {
                     simulation.execute(operationAgent);
                 }
             }
 
             synchronized (simulation.monitor) {
                 try {
-                    wait(1);
+                    simulation.monitor.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -64,6 +64,9 @@ public class ProcessAgent implements Runnable {
                     ++completed;
                     operationAgents.remove(operationAgent);
                 }
+                if (operationAgent.isCancelled()) {
+                    return;
+                }
             }
             if (started == completed) {
                 ++currentAsyncPoint;
@@ -73,6 +76,7 @@ public class ProcessAgent implements Runnable {
         timeFinish = simulation.getCurrentTime();
         done = true;
         log();
+        System.out.println("Процесс " + id + " окончился: " + timeFinish);
     }
 
     void log() {

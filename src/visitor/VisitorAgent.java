@@ -31,7 +31,7 @@ public class VisitorAgent {
     }
 
     public boolean finished() {
-        return order.isDone();
+        return order != null && order.isDone();
     }
     
     public boolean startedOrder() {

@@ -5,11 +5,16 @@ import process.Cooker;
 import process.Equipment;
 import process.EquipmentType;
 import process.OperationType;
+import simulation.Simulation;
 import storage.Product;
 import storage.ProductType;
 import visitor.Visitor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -49,9 +54,11 @@ public class Main {
         ArrayList<DishCard> dishCards = new ArrayList<>();
         Deserializer deserializerDishCards = new Deserializer();
         dishCards = deserializerDishCards.dishCardsDeserialize();
+        
 
-        int check = 0;
-    // TODO: replace snake_case in the classes with camelCase
-
+        Simulation simulation = new Simulation(LocalDateTime.parse( "2023-02-28T10:12:37", DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                products, cookers, equipment, operations, dishCards, menuDishes, visitors);
+        ExecutorService thread = Executors.newSingleThreadExecutor();
+        simulation.run();
     }
 }

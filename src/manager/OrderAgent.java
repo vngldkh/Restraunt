@@ -14,8 +14,8 @@ public class OrderAgent implements Runnable {
     Simulation simulation;
     visitor.VisitorAgent customer;
     ArrayList<MenuDish> orderedDishes;
-    ArrayList<DishCard> dishCards;
-    ArrayList<Future<?>> processes;
+    ArrayList<DishCard> dishCards = new ArrayList<>();;
+    ArrayList<Future<?>> processes = new ArrayList<>();
     private LocalDateTime timeStart;
     private LocalDateTime timeEnd;
     boolean done = false;
@@ -28,14 +28,13 @@ public class OrderAgent implements Runnable {
 
     @Override
     public void run() {
-        dishCards = new ArrayList<>();
-        Handbook handbook = simulation.getRestaurant().getManager().provideHandBook();
-        processes = new ArrayList<>();
         timeStart = simulation.getCurrentTime();
+        Handbook handbook = simulation.getRestaurant().getManager().provideHandBook();
         for (var menuDish : orderedDishes) {
-            var dishCard = handbook.getDishCard(menuDish.getMenuDishId());
+            var dishCard = handbook.getDishCardByMenuId(menuDish.getMenuDishId());
             dishCards.add(dishCard);
-            var process = new ProcessAgent(simulation, dishCard, menuDish.getMenuDishId());
+            var process = new ProcessAgent(simulation.getRestaurant().getManager().getProcessId(),
+                                           simulation, dishCard, menuDish.getMenuDishId());
             processes.add(simulation.submit(process));
         }
         for (var future : processes) {

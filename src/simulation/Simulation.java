@@ -1,11 +1,19 @@
 package simulation;
 
+import manager.DishCard;
+import manager.MenuDish;
+import process.Cooker;
+import process.Equipment;
+import process.OperationType;
+import storage.Product;
+import visitor.Visitor;
 import visitor.VisitorAgent;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 
-public class Simulation {
+public class Simulation implements Runnable {
     private LocalDateTime currentDateTime;
     private final Restaurant restaurant;
     private final ExecutorService threadPool;
@@ -13,9 +21,11 @@ public class Simulation {
     private int respondCount;
     public final Object monitor = new Object();
 
-    Simulation() {
-        currentDateTime = LocalDateTime.now();
-        restaurant = new Restaurant();
+    public Simulation(LocalDateTime dateTime, ArrayList<Product> products,
+                      ArrayList<Cooker> cookers, ArrayList<Equipment> equipment, ArrayList<OperationType> operations,
+                      ArrayList<DishCard> dishCards, ArrayList<MenuDish> menuDishes, ArrayList<Visitor> visitors) {
+        currentDateTime = dateTime;
+        restaurant = new Restaurant(this, products, cookers, equipment, operations, dishCards, menuDishes, visitors);
         threadPool = Executors.newCachedThreadPool();
     }
 
@@ -47,8 +57,10 @@ public class Simulation {
         ++respondCount;
     }
 
+    @Override
     public void run() {
         while (!restaurant.visitorAgents.isEmpty()) {
+            System.out.println(currentDateTime);
             for (var visitorAgent : restaurant.visitorAgents) {
                 if (visitorAgent.startedOrder()) {
                     visitorAgent.makeOrder();
@@ -57,14 +69,20 @@ public class Simulation {
             synchronized (monitor) {
                 do {
                     try {
-                        wait(10);
+                        monitor.wait(20);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 } while (respondCount != subscribers);
                 respondCount = 0;
-                currentDateTime = currentDateTime.plusSeconds(1);
+                monitor.notifyAll();
+                try {
+                    monitor.wait(20);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            currentDateTime = currentDateTime.plusSeconds(1);
             restaurant.visitorAgents.removeIf(VisitorAgent::finished);
         }
     }
