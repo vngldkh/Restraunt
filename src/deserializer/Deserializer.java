@@ -1,5 +1,7 @@
 package deserializer;
 
+import manager.DishCard;
+import manager.MenuDish;
 import process.*;
 import storage.Product;
 import com.google.gson.*;
@@ -342,29 +344,37 @@ public class Deserializer {
         return arrayOfOperations;
     }
 
-    public ArrayList<Menu> operationsDeserialize() {
-        File input = new File("./input/operation_types.txt");
-        ArrayList<OperationType> arrayOfOperations = new ArrayList<>();
+    public ArrayList<MenuDish> menuDishesDeserialize() {
+        File input = new File("./input/menu_dishes.txt");
+        ArrayList<MenuDish> arrayOfMenuDishes = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
 
-            JsonArray jsonArrayOfOperations = fileObject.get("operation_types").getAsJsonArray();
-            for (JsonElement operationElement : jsonArrayOfOperations) {
-                JsonObject operationJsonObject = operationElement.getAsJsonObject();
+            JsonArray jsonArrayOfMenuDishes = fileObject.get("menu_dishes").getAsJsonArray();
+            for (JsonElement menuDishElement : jsonArrayOfMenuDishes) {
+                JsonObject menuDishJsonObject = menuDishElement.getAsJsonObject();
 
-                int oper_type_id = 0;
-                String oper_type_name = null;
+                int menu_dish_id = 0;
+                int menu_dish_card = 0;
+                int menu_dish_price = 0;
+                boolean menu_dish_active = false;
 
-                if (operationJsonObject.has("oper_type_id")) {
-                    oper_type_id = operationJsonObject.get("oper_type_id").getAsInt();
+                if (menuDishJsonObject.has("menu_dish_id")) {
+                    menu_dish_id = menuDishJsonObject.get("menu_dish_id").getAsInt();
                 }
-                if (operationJsonObject.has("oper_type_name")) {
-                    oper_type_name = operationJsonObject.get("oper_type_name").getAsString();
+                if (menuDishJsonObject.has("menu_dish_card")) {
+                    menu_dish_card = menuDishJsonObject.get("menu_dish_card").getAsInt();
+                }
+                if (menuDishJsonObject.has("menu_dish_price")) {
+                    menu_dish_price = menuDishJsonObject.get("menu_dish_price").getAsInt();
+                }
+                if (menuDishJsonObject.has("menu_dish_active")) {
+                    menu_dish_active = menuDishJsonObject.get("menu_dish_active").getAsBoolean();
                 }
 
-                OperationType operation = new OperationType(oper_type_id, oper_type_name);
-                arrayOfOperations.add(operation);
+                MenuDish menuDish = new MenuDish(menu_dish_id, menu_dish_card, menu_dish_price, menu_dish_active);
+                arrayOfMenuDishes.add(menuDish);
             }
         } catch (FileNotFoundException error) {
             System.err.println("Error: input file not found!");
@@ -373,6 +383,93 @@ public class Deserializer {
             System.err.println("Error: specific problem!");
             error.printStackTrace();
         }
-        return arrayOfOperations;
+        return arrayOfMenuDishes;
+    }
+
+    public ArrayList<DishCard> dishCardsDeserialize() {
+        File input = new File("./input/dish_cards.txt");
+        ArrayList<DishCard> arrayOfDishCards = new ArrayList<>();
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+
+            JsonArray jsonArrayOfMenuDishes = fileObject.get("dish_cards").getAsJsonArray();
+            for (JsonElement dishCardsElement : jsonArrayOfMenuDishes) {
+                JsonObject dishCardsJsonObject = dishCardsElement.getAsJsonObject();
+
+                int card_id = 0;
+                String dish_name = null;
+                String desription = null;
+                String card_time = null;
+
+                ArrayList<Operation> operations = new ArrayList<>();
+
+                if (dishCardsJsonObject.has("card_id")) {
+                    card_id = dishCardsJsonObject.get("card_id").getAsInt();
+                }
+                if (dishCardsJsonObject.has("dish_name")) {
+                    dish_name = dishCardsJsonObject.get("dish_name").getAsString();
+                }
+                if (dishCardsJsonObject.has("desription")) {
+                    desription = dishCardsJsonObject.get("desription").getAsString();
+                }
+                if (dishCardsJsonObject.has("card_time")) {
+                    card_time = dishCardsJsonObject.get("card_time").getAsString();
+                }
+
+                JsonArray jsonArrayOfVisitorDishes = dishCardsJsonObject.get("operations").getAsJsonArray();
+                for (JsonElement operationsElement : jsonArrayOfVisitorDishes) {
+                    JsonObject operationsJsonObject = operationsElement.getAsJsonObject();
+
+                    int oper_type = 0;
+                    int equip_type = 0;
+                    double oper_time = 0;
+                    int oper_async_point = 0;
+                    ArrayList<OperProduct> oper_products = new ArrayList<>();
+
+                    if (operationsJsonObject.has("oper_type")) {
+                        oper_type = operationsJsonObject.get("oper_type").getAsInt();
+                    }
+                    if (operationsJsonObject.has("equip_type")) {
+                        equip_type = operationsJsonObject.get("equip_type").getAsInt();
+                    }
+                    if (operationsJsonObject.has("oper_time")) {
+                        oper_time = operationsJsonObject.get("oper_time").getAsDouble();
+                    }
+                    if (operationsJsonObject.has("oper_async_point")) {
+                        oper_async_point = operationsJsonObject.get("oper_async_point").getAsInt();
+                    }
+
+                    JsonArray jsonArrayOfOperProducts = dishCardsJsonObject.get("oper_products").getAsJsonArray();
+                    for (JsonElement operProductsElement : jsonArrayOfVisitorDishes) {
+                        JsonObject operProductsJsonObject = operProductsElement.getAsJsonObject();
+                        int prod_type = 0;
+                        double prod_quantity = 0;
+                        if (operProductsJsonObject.has("prod_type")) {
+                            prod_type = operationsJsonObject.get("prod_type").getAsInt();
+                        }
+                        if (operProductsJsonObject.has("prod_quantity")) {
+                            prod_quantity = operationsJsonObject.get("prod_quantity").getAsDouble();
+                        }
+                        OperProduct operProduct = new OperProduct(prod_type, prod_quantity);
+                        oper_products.add(operProduct);
+                    }
+                    Operation operation = new Operation(oper_type, equip_type, oper_time, oper_async_point, oper_products);
+                    operations.add(operation);
+                }
+
+                LocalDateTime date = LocalDateTime.parse(card_time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                DishCard dishCard = new DishCard(card_id, dish_name, desription, date, operations);
+                arrayOfDishCards.add(dishCard);
+            }
+        } catch (FileNotFoundException error) {
+            System.err.println("Error: input file not found!");
+            error.printStackTrace();
+        } catch (Exception error) {
+            System.err.println("Error: specific problem!");
+            error.printStackTrace();
+        }
+        return arrayOfDishCards;
     }
 }
