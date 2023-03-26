@@ -37,4 +37,8 @@ public class VisitorAgent {
     public boolean startedOrder() {
         return simulation.getCurrentTime().isEqual(visitor.started());
     }
+
+    public String getName() {
+        return visitor.name();
+    }
 }
