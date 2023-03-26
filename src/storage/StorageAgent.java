@@ -1,6 +1,5 @@
 package storage;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import simulation.Simulation;
@@ -14,7 +13,7 @@ public class StorageAgent {
         this.simulation = simulation;
         storage = new HashMap<>();
         for (Product product : products) {
-            int type_id = product.prod_item_type;
+            int type_id = product.prodItemType;
             if (!storage.containsKey(type_id)) {
                 storage.put(type_id, new ArrayList<>());
             }
