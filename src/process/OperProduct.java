@@ -1,6 +1,4 @@
 package process;
 
-public class OperProduct {
-    int prod_type;
-    double prod_quantity;
+public record OperProduct(int prod_type, double prod_quantity) {
 }
