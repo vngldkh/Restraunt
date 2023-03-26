@@ -3,28 +3,44 @@ package process;
 import simulation.Simulation;
 import storage.ProductTypeAgent;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class OperationAgent implements Runnable {
-    Simulation simulation;
-    Operation operation;
-    ArrayList<ProductTypeAgent> productTypeAgents = new ArrayList<>();
+    private Simulation simulation;
+    private Operation operation;
+    private ArrayList<ProductTypeAgent> productTypeAgents = new ArrayList<>();
+    private int menuDishId;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private long secondsPassed = 0;
+    private boolean done = false;
 
-    OperationAgent(Simulation simulation, Operation operation) {
+    OperationAgent(Simulation simulation, Operation operation, int menuDishId) {
         this.simulation = simulation;
         this.operation = operation;
+        this.menuDishId = menuDishId;
+        startTime = simulation.getCurrentTime();
+    }
+
+    int getAsyncPoint() {
+        return operation.oper_async_point();
+    }
+
+    boolean isDone() {
+        return done;
     }
 
     @Override
     public void run() {
-        CookerAgent executor = simulation.getRestaurant().getManager().GetAvailableExecutor();
+        CookerAgent executor = simulation.getRestaurant().getManager().getAvailableExecutor();
         if (executor == null) {
             return;
         }
 
-        EquipmentAgent equipment = simulation.getRestaurant().getManager().ReserveEquipment(operation.equip_type());
+        EquipmentAgent equipment = simulation.getRestaurant().getManager().reserveEquipment(operation.equip_type());
         if (equipment == null) {
-            simulation.getRestaurant().getManager().FreeExecutor(executor);
+            simulation.getRestaurant().getManager().freeExecutor(executor);
             return;
         }
 
@@ -34,8 +50,8 @@ public class OperationAgent implements Runnable {
             var productTypeAgent = storage.ReserveProduct(operProduct.prod_type(),
                                                                          operProduct.prod_quantity());
             if (!productTypeAgent.Reserved()) {
-                // TODO: make a menu dish unavailable
-                simulation.getRestaurant().getManager().FreeExecutor(executor);
+                simulation.getRestaurant().getManager().makeMenuDishUnavailable(menuDishId);
+                simulation.getRestaurant().getManager().freeExecutor(executor);
                 equipment.Free();
                 for (var agent : productTypeAgents) {
                     agent.CancelReservation();
@@ -43,10 +59,32 @@ public class OperationAgent implements Runnable {
                 return;
             }
         }
+
+        simulation.subscribe();
+
+        while (secondsPassed != ((long) operation.oper_time() * 60)) {
+            simulation.respond();
+            synchronized (simulation.monitor) {
+                try {
+                    wait(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            ++secondsPassed;
+        }
+
+        simulation.getRestaurant().getManager().freeExecutor(executor);
+        equipment.Free();
+
+        endTime = simulation.getCurrentTime();
+
+        simulation.unsubscribe();
+        done = true;
+        Log();
     }
-    /* TODO:
-        -1. reserve_cooker-
-        -2. reserve_equip-
-        3. record_time start-end
-     */
+
+    void Log() {
+        // TODO
+    }
 }
