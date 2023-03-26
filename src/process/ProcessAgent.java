@@ -11,7 +11,8 @@ public class ProcessAgent implements Runnable {
     long id;
     Simulation simulation;
     DishCard dishCard;
-    CopyOnWriteArrayList<OperationAgent> operationAgents;
+    CopyOnWriteArrayList<OperationAgent> operationAgents = new CopyOnWriteArrayList<>();
+    ArrayList<OperationAgent> utilized = new ArrayList<>();
     int menuDishId;
     int currentAsyncPoint = 0;
     LocalDateTime timeStart;
@@ -25,17 +26,37 @@ public class ProcessAgent implements Runnable {
         this.menuDishId = menuDishId;
     }
 
+    public ArrayList<OperationAgent> getUtilized() {
+        return utilized;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public int getMenuDishId() {
+        return menuDishId;
+    }
+
+    public String getStartTime() {
+        return timeStart.toString();
+    }
+
+    public String getFinishTime() {
+        return timeFinish.toString();
+    }
+
     @Override
     public void run() {
         timeStart = simulation.getCurrentTime();
         System.out.println("Процесс " + id + " начался: " + timeStart);
-        operationAgents = new CopyOnWriteArrayList<>();
         if (dishCard == null) {
             return;
         }
         for (var operation : dishCard.operations()) {
             OperationAgent operationAgent = new OperationAgent(simulation.getRestaurant().getManager().getOperationId(),
-                                                               simulation, operation, dishCard.card_id());
+                                                               id, dishCard.card_id(), simulation,
+                                                               operation, dishCard.card_id());
             operationAgents.add(operationAgent);
         }
 
@@ -62,6 +83,7 @@ public class ProcessAgent implements Runnable {
                 }
                 if (operationAgent.isDone()) {
                     ++completed;
+                    utilized.add(operationAgent);
                     operationAgents.remove(operationAgent);
                 }
                 if (operationAgent.isCancelled()) {
@@ -75,7 +97,7 @@ public class ProcessAgent implements Runnable {
 
         timeFinish = simulation.getCurrentTime();
         done = true;
-        log();
+        simulation.addProcess(this);
         System.out.println("Процесс " + id + " окончился: " + timeFinish);
     }
 

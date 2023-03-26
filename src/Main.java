@@ -54,7 +54,7 @@ public class Main {
         ArrayList<DishCard> dishCards = new ArrayList<>();
         Deserializer deserializerDishCards = new Deserializer();
         dishCards = deserializerDishCards.dishCardsDeserialize();
-        
+
 
         Simulation simulation = new Simulation(LocalDateTime.parse( "2023-02-28T10:12:37", DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 products, cookers, equipment, operations, dishCards, menuDishes, visitors);
