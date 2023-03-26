@@ -103,7 +103,7 @@ public class Deserializer {
 
                 int prod_type_id = 0;
                 String prod_type_name = null;
-                Boolean prod_is_food = false;
+                boolean prod_is_food = false;
 
                 if (productTypeJsonObject.has("prod_type_id")) {
                     prod_type_id = productTypeJsonObject.get("prod_type_id").getAsInt();
@@ -144,7 +144,7 @@ public class Deserializer {
                 int equip_id = 0;
                 int equip_type = 0;
                 String equip_name = null;
-                Boolean equip_active = false;
+                boolean equip_active = false;
 
                 if (equipmentJsonObject.has("equip_id")) {
                     equip_id = equipmentJsonObject.get("equip_id").getAsInt();
@@ -286,7 +286,7 @@ public class Deserializer {
 
                 int cook_id = 0;
                 String cook_name = null;
-                Boolean cook_active = false;
+                boolean cook_active = false;
 
                 if (cookerJsonObject.has("cook_id")) {
                     cook_id = cookerJsonObject.get("cook_id").getAsInt();

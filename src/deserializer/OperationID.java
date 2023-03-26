@@ -1,4 +1,4 @@
 package deserializer;
 
-public record OperationID (int oper_id) {
+public record OperationID (int proc_oper) {
 }
