@@ -16,12 +16,12 @@ import java.util.concurrent.*;
 public class Restaurant {
     private Simulation simulation;
     private Manager manager;
-    public CookerAgent[] cookers;
+    public ArrayList<CookerAgent> cookers;
     private ConcurrentHashMap<Integer, EquipmentAgent> equipments;
-    private DishCard[] dishCards;
+    private ArrayList<DishCard> dishCards;
     private ConcurrentHashMap<Integer, MenuDish> menu;
     private StorageAgent storage;
-    private Operation[] operations;
+    private ArrayList<Operation> operations;
 
     final BlockingDeque<OrderAgent> orders = new LinkedBlockingDeque<>();
     final ArrayList<VisitorAgent> visitorAgents = new ArrayList<>();
@@ -38,16 +38,12 @@ public class Restaurant {
         return storage;
     }
 
-    public DishCard[] getDishCards() {
+    public ArrayList<DishCard> getDishCards() {
         return dishCards;
     }
 
-    public Operation[] getOperations() {
+    public ArrayList<Operation> getOperations() {
         return operations;
-    }
-
-    public CookerAgent[] getCookers() {
-        return cookers;
     }
 
     public ConcurrentHashMap<Integer, EquipmentAgent> getEquipments() {
