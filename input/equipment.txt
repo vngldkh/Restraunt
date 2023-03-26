@@ -1,18 +1,21 @@
 {
-            "cookers": [{
-                                    "cook_id": 15,
-                                    "cook_name": "Ivanov A. S.",
-                                    "cook_active": true
+            "equipment": [{
+                                    "equip_id": 12,
+                                    "equip_type": 2,
+                                    "equip_name": "LIDER 250",
+                                    "equip_active": true
+                        },
+  {
+                                    "equip_id": 13,
+                                    "equip_type": 2,
+                                    "equip_name": "LIDER 150",
+                                    "equip_active": false
                         },
                         {
-                                    "cook_id": 16,
-                                    "cook_name": "Petrov I. V.",
-                                    "cook_active": true
-                        },
-                        {
-                                    "cook_id": 14,
-                                    "cook_name": "Sidorov G. S.",
-                                    "cook_active": false
+                                    "equip_id": 14,
+                                    "equip_type": 25,
+                                    "equip_name": "DAZHENG LOOKYAMI",
+                                    "equip_active": true
                         }
             ]
 }

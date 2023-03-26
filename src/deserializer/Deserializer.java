@@ -400,7 +400,7 @@ public class Deserializer {
                 int card_id = 0;
                 String dish_name = null;
                 String desription = null;
-                String card_time = null;
+                double card_time = 0;
 
                 ArrayList<Operation> operations = new ArrayList<>();
 
@@ -414,11 +414,11 @@ public class Deserializer {
                     desription = dishCardsJsonObject.get("desription").getAsString();
                 }
                 if (dishCardsJsonObject.has("card_time")) {
-                    card_time = dishCardsJsonObject.get("card_time").getAsString();
+                    card_time = dishCardsJsonObject.get("card_time").getAsDouble();
                 }
 
-                JsonArray jsonArrayOfVisitorDishes = dishCardsJsonObject.get("operations").getAsJsonArray();
-                for (JsonElement operationsElement : jsonArrayOfVisitorDishes) {
+                JsonArray jsonArrayOfOperations = dishCardsJsonObject.get("operations").getAsJsonArray();
+                for (JsonElement operationsElement : jsonArrayOfOperations) {
                     JsonObject operationsJsonObject = operationsElement.getAsJsonObject();
 
                     int oper_type = 0;
@@ -440,16 +440,16 @@ public class Deserializer {
                         oper_async_point = operationsJsonObject.get("oper_async_point").getAsInt();
                     }
 
-                    JsonArray jsonArrayOfOperProducts = dishCardsJsonObject.get("oper_products").getAsJsonArray();
-                    for (JsonElement operProductsElement : jsonArrayOfVisitorDishes) {
+                    JsonArray jsonArrayOfOperProducts = operationsJsonObject.get("oper_products").getAsJsonArray();
+                    for (JsonElement operProductsElement : jsonArrayOfOperProducts) {
                         JsonObject operProductsJsonObject = operProductsElement.getAsJsonObject();
                         int prod_type = 0;
                         double prod_quantity = 0;
                         if (operProductsJsonObject.has("prod_type")) {
-                            prod_type = operationsJsonObject.get("prod_type").getAsInt();
+                            prod_type = operProductsJsonObject.get("prod_type").getAsInt();
                         }
                         if (operProductsJsonObject.has("prod_quantity")) {
-                            prod_quantity = operationsJsonObject.get("prod_quantity").getAsDouble();
+                            prod_quantity = operProductsJsonObject.get("prod_quantity").getAsDouble();
                         }
                         OperProduct operProduct = new OperProduct(prod_type, prod_quantity);
                         oper_products.add(operProduct);
@@ -458,9 +458,7 @@ public class Deserializer {
                     operations.add(operation);
                 }
 
-                LocalDateTime date = LocalDateTime.parse(card_time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-                DishCard dishCard = new DishCard(card_id, dish_name, desription, date, operations);
+                DishCard dishCard = new DishCard(card_id, dish_name, desription, card_time, operations);
                 arrayOfDishCards.add(dishCard);
             }
         } catch (FileNotFoundException error) {
