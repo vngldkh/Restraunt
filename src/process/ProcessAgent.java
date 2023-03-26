@@ -46,6 +46,10 @@ public class ProcessAgent implements Runnable {
         return timeFinish.toString();
     }
 
+    public double getTime() {
+        return dishCard.card_time();
+    }
+
     @Override
     public void run() {
         timeStart = simulation.getCurrentTime();
@@ -99,9 +103,5 @@ public class ProcessAgent implements Runnable {
         done = true;
         simulation.addProcess(this);
         System.out.println("Процесс " + id + " окончился: " + timeFinish);
-    }
-
-    void log() {
-        // TODO
     }
 }

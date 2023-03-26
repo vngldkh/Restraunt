@@ -79,7 +79,6 @@ public class Simulation implements Runnable {
     @Override
     public void run() {
         while (!restaurant.visitorAgents.isEmpty()) {
-            System.out.println(currentDateTime);
             for (var visitorAgent : restaurant.visitorAgents) {
                 if (visitorAgent.startedOrder()) {
                     visitorAgent.makeOrder();
