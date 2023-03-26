@@ -27,4 +27,8 @@ public class Restaurant {
     public Manager getManager() {
         return manager;
     }
+
+    public StorageAgent getStorage() {
+        return storage;
+    }
 }

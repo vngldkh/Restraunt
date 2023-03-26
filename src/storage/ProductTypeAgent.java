@@ -14,17 +14,19 @@ public class ProductTypeAgent {
         this.simulation = simulation;
         int i = 0;
         double reserved_quantity = 0;
-        while (i < products.size() && reserved_quantity < requested_quantity) {
-            if (simulation.getCurrentTime().isBefore(products.get(i).prod_item_valid_until) &&
-                simulation.getCurrentTime().isAfter(products.get(i).prod_item_delivered)) {
-                product_agents.add(new ProductAgent(products.get(i), requested_quantity - reserved_quantity));
-                reserved_quantity += product_agents.get(i).reserved_quantity;
+        synchronized (simulation.getRestaurant().getStorage().storage) {
+            while (i < products.size() && reserved_quantity < requested_quantity) {
+                if (simulation.getCurrentTime().isBefore(products.get(i).prod_item_valid_until) &&
+                        simulation.getCurrentTime().isAfter(products.get(i).prod_item_delivered)) {
+                    product_agents.add(new ProductAgent(products.get(i), requested_quantity - reserved_quantity));
+                    reserved_quantity += product_agents.get(i).reserved_quantity;
+                }
+                ++i;
             }
-            ++i;
-        }
-        reserved = reserved_quantity == requested_quantity;
-        if (!reserved) {
-            CancelReservation();
+            reserved = reserved_quantity == requested_quantity;
+            if (!reserved) {
+                CancelReservation();
+            }
         }
     }
 
@@ -33,7 +35,9 @@ public class ProductTypeAgent {
     }
 
     public void CancelReservation() {
-        product_agents.forEach(ProductAgent::cancelReservation);
+        synchronized (simulation.getRestaurant().getStorage().storage) {
+            product_agents.forEach(ProductAgent::cancelReservation);
+        }
     }
 
     public int GetProdType() {
