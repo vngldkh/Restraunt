@@ -1,9 +1,9 @@
 package manager;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 public class Handbook {
-    ConcurrentHashMap<Integer, DishCard> handbook = new ConcurrentHashMap<>();
+    HashMap<Integer, DishCard> handbook = new HashMap<>();
 
     Handbook(DishCard[] dishCards) {
         for (var dishCard : dishCards) {
