@@ -7,10 +7,11 @@ import simulation.Simulation;
 
 public class StorageAgent {
     // key - product_type, value - list of that type's products (sorted in ascending order of expiration time).
-    HashMap<Integer, ArrayList<Product>> storage;
-    Simulation simulation;
+    final HashMap<Integer, ArrayList<Product>> storage;
+    final Simulation simulation;
 
-    public StorageAgent(Product[] products) {
+    public StorageAgent(Simulation simulation, Product[] products) {
+        this.simulation = simulation;
         storage = new HashMap<>();
         for (Product product : products) {
             int type_id = product.prod_item_type;
