@@ -3,6 +3,7 @@ package simulation;
 import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Simulation {
     private final LocalDateTime currentDateTime;
@@ -21,6 +22,10 @@ public class Simulation {
 
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public void execute(Runnable task) {
+        threadPool.execute(task);
     }
 }
 
