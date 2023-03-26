@@ -3,9 +3,18 @@ package process;
 import java.util.Optional;
 
 public class CookerAgent {
-    Cooker cooker;
-    Optional<OperationAgent> current_operation;
-    /*
-        TODO: assign_operation
-    */
+    private Cooker cooker;
+    private boolean available = true;
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void Engage() {
+        available = false;
+    }
+
+    public void Free() {
+        available = true;
+    }
 }
