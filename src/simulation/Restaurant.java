@@ -3,15 +3,15 @@ package simulation;
 import manager.DishCard;
 import manager.Manager;
 import manager.MenuDish;
-import process.Equipment;
+import manager.OrderAgent;
 import process.Operation;
 import storage.StorageAgent;
 import process.CookerAgent;
 import process.EquipmentAgent;
+import visitor.VisitorAgent;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class Restaurant {
     private Simulation simulation;
@@ -22,6 +22,9 @@ public class Restaurant {
     private ConcurrentHashMap<Integer, MenuDish> menu;
     private StorageAgent storage;
     private Operation[] operations;
+
+    final BlockingDeque<OrderAgent> orders = new LinkedBlockingDeque<>();
+    final ArrayList<VisitorAgent> visitorAgents = new ArrayList<>();
 
     public ConcurrentHashMap<Integer, MenuDish> getMenu() {
         return menu;
@@ -50,4 +53,9 @@ public class Restaurant {
     public ConcurrentHashMap<Integer, EquipmentAgent> getEquipments() {
         return equipments;
     }
+
+    public synchronized void newOrder(OrderAgent orderAgent) {
+        orders.addLast(orderAgent);
+    }
+
 }

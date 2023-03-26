@@ -4,7 +4,6 @@ import process.CookerAgent;
 import process.EquipmentAgent;
 import process.Manual;
 import simulation.Simulation;
-import storage.StorageAgent;
 import visitor.VisitorAgent;
 
 import java.util.ArrayList;
@@ -12,30 +11,31 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Manager {
     Simulation simulation;
-    CopyOnWriteArrayList<OrderAgent> orders = new CopyOnWriteArrayList<>();
     CopyOnWriteArrayList<CookerAgent> availableCookers = new CopyOnWriteArrayList<>();
 
     public Manager(Simulation simulation) {
         this.simulation = simulation;
     }
 
-    public Menu ProvideMenu() {
+    public Menu provideMenu() {
         return new Menu(simulation.getRestaurant().getMenu());
     }
 
-    public Handbook ProvideHandBook() {
+    public Handbook provideHandBook() {
         return new Handbook(simulation.getRestaurant().getDishCards());
     }
 
-    public Manual ProvideManual() {
+    public Manual provideManual() {
         return new Manual(simulation.getRestaurant().getOperations());
     }
 
-    public void AcceptOrder(VisitorAgent visitor, ArrayList<MenuDish> order) {
-        orders.add(new OrderAgent(simulation, visitor, order));
+    public OrderAgent acceptOrder(VisitorAgent visitor, ArrayList<MenuDish> order) {
+        var orderAgent = new OrderAgent(simulation, visitor, order);
+        simulation.getRestaurant().newOrder(orderAgent);
+        return orderAgent;
     }
 
-    public synchronized CookerAgent GetAvailableExecutor() {
+    public synchronized CookerAgent getAvailableExecutor() {
         if (availableCookers.isEmpty()) {
             return null;
         }
@@ -45,12 +45,12 @@ public class Manager {
         return executor;
     }
 
-    public synchronized void FreeExecutor(CookerAgent cookerAgent) {
+    public synchronized void freeExecutor(CookerAgent cookerAgent) {
         cookerAgent.Free();
         availableCookers.add(cookerAgent);
     }
 
-    public synchronized EquipmentAgent ReserveEquipment(int id) {
+    public synchronized EquipmentAgent reserveEquipment(int id) {
         var equipments = simulation.getRestaurant().getEquipments();
         if (!equipments.containsKey(id)) {
             return null;
@@ -61,5 +61,12 @@ public class Manager {
         }
         equipment.Use();
         return equipment;
+    }
+
+    public void makeMenuDishUnavailable(int menuDishId) {
+        var menu = simulation.getRestaurant().getMenu();
+        if (menu.containsKey(menuDishId)) {
+            menu.get(menuDishId).makeUnavailable();
+        }
     }
 }

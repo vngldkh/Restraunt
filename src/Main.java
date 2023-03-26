@@ -1,8 +1,11 @@
 import deserializer.Deserializer;
+import process.Cooker;
 import process.Equipment;
 import process.EquipmentType;
+import process.OperationType;
 import storage.Product;
 import storage.ProductType;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,18 @@ public class Main {
         ArrayList<EquipmentType> equipmentTypes = new ArrayList<>();
         Deserializer deserializerEquipmentTypes = new Deserializer();
         equipmentTypes = deserializerEquipmentTypes.equipmentTypesDeserialize();
+
+        ArrayList<Visitor> visitors = new ArrayList<>();
+        Deserializer deserializerVisitors = new Deserializer();
+        visitors = deserializerVisitors.visitorOrdersDeserialize();
+
+        ArrayList<Cooker> cookers = new ArrayList<>();
+        Deserializer deserializerCookers = new Deserializer();
+        cookers = deserializerCookers.cookersDeserialize();
+
+        ArrayList<OperationType> operations = new ArrayList<>();
+        Deserializer deserializerOperations = new Deserializer();
+        operations = deserializerOperations.operationsDeserialize();
 
         int check = 0;
     // TODO: replace snake_case in the classes with camelCase
