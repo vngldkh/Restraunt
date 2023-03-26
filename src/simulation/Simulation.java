@@ -1,8 +1,9 @@
 package simulation;
 
+import visitor.VisitorAgent;
+
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Simulation {
     private LocalDateTime currentDateTime;
@@ -30,29 +31,41 @@ public class Simulation {
         threadPool.execute(task);
     }
 
-    public synchronized void Subscribe() {
+    public Future<?> submit(Runnable task) {
+        return threadPool.submit(task);
+    }
+
+    public synchronized void subscribe() {
         ++subscribers;
     }
 
-    public synchronized void Unsubscribe() {
+    public synchronized void unsubscribe() {
         --subscribers;
     }
 
-    public synchronized void Respond() {
+    public synchronized void respond() {
         ++respondCount;
     }
 
     public void run() {
-        synchronized (monitor) {
-            do {
-                try {
-                    wait(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        while (!restaurant.visitorAgents.isEmpty()) {
+            for (var visitorAgent : restaurant.visitorAgents) {
+                if (visitorAgent.startedOrder()) {
+                    visitorAgent.makeOrder();
                 }
-            } while (respondCount != subscribers);
-            respondCount = 0;
-            currentDateTime = currentDateTime.plusSeconds(1);
+            }
+            synchronized (monitor) {
+                do {
+                    try {
+                        wait(10);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                } while (respondCount != subscribers);
+                respondCount = 0;
+                currentDateTime = currentDateTime.plusSeconds(1);
+            }
+            restaurant.visitorAgents.removeIf(VisitorAgent::finished);
         }
     }
 }
