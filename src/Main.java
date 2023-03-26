@@ -1,6 +1,5 @@
 import deserializer.Deserializer;
 import deserializer.OperationID;
-import deserializer.ProccessSerialized;
 import deserializer.ProcessElement;
 import manager.DishCard;
 import manager.MenuDish;

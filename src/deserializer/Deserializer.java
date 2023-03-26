@@ -39,30 +39,111 @@ public class Deserializer {
 
                 if (productJsonObject.has("prod_item_id")) {
                     prod_item_id = productJsonObject.get("prod_item_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_type")) {
                     prod_item_type = productJsonObject.get("prod_item_type").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_type");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_name")) {
                     prod_item_name = productJsonObject.get("prod_item_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_company")) {
                     prod_item_company = productJsonObject.get("prod_item_company").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_company");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_unit")) {
                     prod_item_unit = productJsonObject.get("prod_item_unit").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_unit");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_quantity")) {
                     prod_item_quantity = productJsonObject.get("prod_item_quantity").getAsDouble();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_quantity");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_cost")) {
                     prod_item_cost = productJsonObject.get("prod_item_cost").getAsDouble();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_cost");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_delivered")) {
                     prod_item_delivered = productJsonObject.get("prod_item_delivered").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_delivered");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productJsonObject.has("prod_item_valid_until")) {
                     prod_item_valid_until = productJsonObject.get("prod_item_valid_until").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product", "prod_item_valid_until");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 LocalDateTime date1 = LocalDateTime.parse(prod_item_delivered, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -107,12 +188,39 @@ public class Deserializer {
 
                 if (productTypeJsonObject.has("prod_type_id")) {
                     prod_type_id = productTypeJsonObject.get("prod_type_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product_types", "prod_type_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productTypeJsonObject.has("prod_type_name")) {
                     prod_type_name = productTypeJsonObject.get("prod_type_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product_types", "prod_type_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (productTypeJsonObject.has("prod_is_food")) {
                     prod_is_food = productTypeJsonObject.get("prod_is_food").getAsBoolean();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "product_types", "prod_is_food");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 ProductType productType = new ProductType(prod_type_id,
@@ -148,15 +256,51 @@ public class Deserializer {
 
                 if (equipmentJsonObject.has("equip_id")) {
                     equip_id = equipmentJsonObject.get("equip_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment", "equip_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (equipmentJsonObject.has("equip_type")) {
                     equip_type = equipmentJsonObject.get("equip_type").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment", "equip_type");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (equipmentJsonObject.has("equip_name")) {
                     equip_name = equipmentJsonObject.get("equip_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment", "equip_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (equipmentJsonObject.has("equip_active")) {
                     equip_active = equipmentJsonObject.get("equip_active").getAsBoolean();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment", "equip_active");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 Equipment equipment = new Equipment(equip_id,
@@ -191,9 +335,27 @@ public class Deserializer {
 
                 if (equipmentTypeJsonObject.has("equip_type_id")) {
                     equip_type_id = equipmentTypeJsonObject.get("equip_type_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment_type", "equip_type_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (equipmentTypeJsonObject.has("equip_type_name")) {
                     equip_type_name = equipmentTypeJsonObject.get("equip_type_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "equipment_type", "equip_type_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 EquipmentType equipmentTypes = new EquipmentType(equip_type_id,
@@ -229,15 +391,51 @@ public class Deserializer {
 
                 if (visitorOrderJsonObject.has("vis_name")) {
                     name = visitorOrderJsonObject.get("vis_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "visitors_orders", "vis_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (visitorOrderJsonObject.has("vis_ord_started")) {
                     started = visitorOrderJsonObject.get("vis_ord_started").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "visitors_orders", "vis_ord_started");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (visitorOrderJsonObject.has("vis_ord_ended")) {
                     ended = visitorOrderJsonObject.get("vis_ord_ended").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "visitors_orders", "vis_ord_ended");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (visitorOrderJsonObject.has("vis_ord_total")) {
                     total = visitorOrderJsonObject.get("vis_ord_total").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "visitors_orders", "vis_ord_total");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 JsonArray jsonArrayOfVisitorDishes = visitorOrderJsonObject.get("vis_ord_dishes").getAsJsonArray();
@@ -248,9 +446,27 @@ public class Deserializer {
                     int menu_dish = 0;
                     if (visitorDishJsonObject.has("ord_dish_id")) {
                         ord_dish_id = visitorDishJsonObject.get("ord_dish_id").getAsInt();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "vis_ord_dishes", "ord_dish_id");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
                     if (visitorDishJsonObject.has("menu_dish")) {
                         menu_dish = visitorDishJsonObject.get("menu_dish").getAsInt();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "vis_ord_dishes", "menu_dish");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
 
                     VisOrdDish visOrdDish = new VisOrdDish(ord_dish_id, menu_dish);
@@ -290,12 +506,39 @@ public class Deserializer {
 
                 if (cookerJsonObject.has("cook_id")) {
                     cook_id = cookerJsonObject.get("cook_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "cookers", "cook_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (cookerJsonObject.has("cook_name")) {
                     cook_name = cookerJsonObject.get("cook_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "cookers", "cook_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (cookerJsonObject.has("cook_active")) {
                     cook_active = cookerJsonObject.get("cook_active").getAsBoolean();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "cookers", "cook_active");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 Cooker cooker = new Cooker(cook_id, cook_name, cook_active);
                 arrayOfCookers.add(cooker);
@@ -326,9 +569,27 @@ public class Deserializer {
 
                 if (operationJsonObject.has("oper_type_id")) {
                     oper_type_id = operationJsonObject.get("oper_type_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "operation_types", "oper_type_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (operationJsonObject.has("oper_type_name")) {
                     oper_type_name = operationJsonObject.get("oper_type_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "operation_types", "oper_type_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 OperationType operation = new OperationType(oper_type_id, oper_type_name);
@@ -362,15 +623,51 @@ public class Deserializer {
 
                 if (menuDishJsonObject.has("menu_dish_id")) {
                     menu_dish_id = menuDishJsonObject.get("menu_dish_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "menu_dishes", "menu_dish_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (menuDishJsonObject.has("menu_dish_card")) {
                     menu_dish_card = menuDishJsonObject.get("menu_dish_card").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "menu_dishes", "menu_dish_card");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (menuDishJsonObject.has("menu_dish_price")) {
                     menu_dish_price = menuDishJsonObject.get("menu_dish_price").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "menu_dishes", "menu_dish_price");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (menuDishJsonObject.has("menu_dish_active")) {
                     menu_dish_active = menuDishJsonObject.get("menu_dish_active").getAsBoolean();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "menu_dishes", "menu_dish_active");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 MenuDish menuDish = new MenuDish(menu_dish_id, menu_dish_card, menu_dish_price, menu_dish_active);
@@ -406,15 +703,51 @@ public class Deserializer {
 
                 if (dishCardsJsonObject.has("card_id")) {
                     card_id = dishCardsJsonObject.get("card_id").getAsInt();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "dish_cards", "card_id");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (dishCardsJsonObject.has("dish_name")) {
                     dish_name = dishCardsJsonObject.get("dish_name").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "dish_cards", "dish_name");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (dishCardsJsonObject.has("desription")) {
                     desription = dishCardsJsonObject.get("desription").getAsString();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "dish_cards", "desription");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
                 if (dishCardsJsonObject.has("card_time")) {
                     card_time = dishCardsJsonObject.get("card_time").getAsDouble();
+                } else {
+                    ErrorSerialized errors = new ErrorSerialized("input_error", "dish_cards", "card_time");
+                    try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(errors);
+                        out.write(jsonString);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    }
                 }
 
                 JsonArray jsonArrayOfOperations = dishCardsJsonObject.get("operations").getAsJsonArray();
@@ -429,15 +762,51 @@ public class Deserializer {
 
                     if (operationsJsonObject.has("oper_type")) {
                         oper_type = operationsJsonObject.get("oper_type").getAsInt();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "operations", "oper_type");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
                     if (operationsJsonObject.has("equip_type")) {
                         equip_type = operationsJsonObject.get("equip_type").getAsInt();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "operations", "equip_type");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
                     if (operationsJsonObject.has("oper_time")) {
                         oper_time = operationsJsonObject.get("oper_time").getAsDouble();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "operations", "oper_time");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
                     if (operationsJsonObject.has("oper_async_point")) {
                         oper_async_point = operationsJsonObject.get("oper_async_point").getAsInt();
+                    } else {
+                        ErrorSerialized errors = new ErrorSerialized("input_error", "operations", "oper_async_point");
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(errors);
+                            out.write(jsonString);
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                        }
                     }
 
                     JsonArray jsonArrayOfOperProducts = operationsJsonObject.get("oper_products").getAsJsonArray();
@@ -447,9 +816,27 @@ public class Deserializer {
                         double prod_quantity = 0;
                         if (operProductsJsonObject.has("prod_type")) {
                             prod_type = operProductsJsonObject.get("prod_type").getAsInt();
+                        } else {
+                            ErrorSerialized errors = new ErrorSerialized("input_error", "oper_products", "prod_type");
+                            try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                                Gson gson = new Gson();
+                                String jsonString = gson.toJson(errors);
+                                out.write(jsonString);
+                            } catch (Exception error) {
+                                error.printStackTrace();
+                            }
                         }
                         if (operProductsJsonObject.has("prod_quantity")) {
                             prod_quantity = operProductsJsonObject.get("prod_quantity").getAsDouble();
+                        } else {
+                            ErrorSerialized errors = new ErrorSerialized("input_error", "oper_products", "prod_quantity");
+                            try (PrintWriter out = new PrintWriter(new FileWriter("error.txt"))) {
+                                Gson gson = new Gson();
+                                String jsonString = gson.toJson(errors);
+                                out.write(jsonString);
+                            } catch (Exception error) {
+                                error.printStackTrace();
+                            }
                         }
                         OperProduct operProduct = new OperProduct(prod_type, prod_quantity);
                         oper_products.add(operProduct);

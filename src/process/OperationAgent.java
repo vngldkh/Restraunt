@@ -1,5 +1,6 @@
 package process;
 
+import deserializer.OperationElement;
 import deserializer.OperationSerialized;
 import simulation.Simulation;
 import storage.ProductTypeAgent;
@@ -52,8 +53,8 @@ public class OperationAgent implements Runnable {
         return cancelled;
     }
 
-    public OperationSerialized getSerialized() {
-        return new OperationSerialized(id, procId, dishCardId, startTime.toString(),
+    public OperationElement getSerialized() {
+        return new OperationElement(id, procId, dishCardId, startTime.toString(),
                                        endTime.toString(), equipmentId, cookerId, false);
     }
     @Override

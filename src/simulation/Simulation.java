@@ -1,9 +1,7 @@
 package simulation;
 
-import deserializer.OperationID;
-import deserializer.OperationSerialized;
-import deserializer.ProcessSerialized;
-import deserializer.Recorder;
+import com.google.gson.Gson;
+import deserializer.*;
 import manager.DishCard;
 import manager.MenuDish;
 import process.Cooker;
@@ -14,6 +12,8 @@ import storage.Product;
 import visitor.Visitor;
 import visitor.VisitorAgent;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.*;
@@ -65,13 +65,13 @@ public class Simulation implements Runnable {
     public synchronized void addProcess(ProcessAgent processAgent) {
         ArrayList<OperationID> operationIDS = new ArrayList<>();
         for (var operationAgent : processAgent.getUtilized()) {
-            OperationSerialized operationSerialized = operationAgent.getSerialized();
+            OperationElement operationSerialized = operationAgent.getSerialized();
             recorder.addOperation(operationSerialized);
             operationIDS.add(operationSerialized.getId());
         }
-        ProcessSerialized process = new ProcessSerialized(processAgent.getId(), processAgent.getMenuDishId(),
+        ProcessElement process = new ProcessElement(processAgent.getId(), processAgent.getMenuDishId(),
                                                            processAgent.getStartTime(), processAgent.getFinishTime(),
-                                                           operationIDS, false);
+                                                false, operationIDS );
         recorder.addProcess(process);
 
     }
@@ -104,6 +104,26 @@ public class Simulation implements Runnable {
             currentDateTime = currentDateTime.plusSeconds(1);
             restaurant.visitorAgents.removeIf(VisitorAgent::finished);
         }
+
+
+        ProcessSerialized process = new ProcessSerialized(recorder.getProcesses());
+        OperationSerialized operation = new OperationSerialized(recorder.getOperations());
+
+        try (PrintWriter out = new PrintWriter(new FileWriter("process_log.txt"))) {
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(process);
+            out.write(jsonString);
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        try (PrintWriter out = new PrintWriter(new FileWriter("operation.txt"))) {
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(operation);
+            out.write(jsonString);
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        System.out.println("Логи успешно записаны!");
     }
 }
 

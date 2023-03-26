@@ -3,22 +3,22 @@ package deserializer;
 import java.util.ArrayList;
 
 public class Recorder {
-    ArrayList<ProcessSerialized> processes = new ArrayList<>();
-    ArrayList<OperationSerialized> operations = new ArrayList<>();
+    ArrayList<ProcessElement> processes = new ArrayList<>();
+    ArrayList<OperationElement> operations = new ArrayList<>();
 
-    public void addProcess(ProcessSerialized process) {
+    public void addProcess(ProcessElement process) {
         processes.add(process);
     }
 
-    public void addOperation(OperationSerialized operation) {
+    public void addOperation(OperationElement operation) {
         operations.add(operation);
     }
 
-    public ArrayList<ProcessSerialized> getProcesses() {
+    public ArrayList<ProcessElement> getProcesses() {
         return processes;
     }
 
-    public ArrayList<OperationSerialized> getOperations() {
+    public ArrayList<OperationElement> getOperations() {
         return operations;
     }
 }
