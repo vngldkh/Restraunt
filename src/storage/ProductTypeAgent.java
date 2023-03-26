@@ -16,8 +16,8 @@ public class ProductTypeAgent {
         double reserved_quantity = 0;
         synchronized (simulation.getRestaurant().getStorage().storage) {
             while (i < products.size() && reserved_quantity < requested_quantity) {
-                if (simulation.getCurrentTime().isBefore(products.get(i).prod_item_valid_until) &&
-                        simulation.getCurrentTime().isAfter(products.get(i).prod_item_delivered)) {
+                if (simulation.getCurrentTime().isBefore(products.get(i).prodItemValidUntil) &&
+                        simulation.getCurrentTime().isAfter(products.get(i).prodItemDelivered)) {
                     product_agents.add(new ProductAgent(products.get(i), requested_quantity - reserved_quantity));
                     reserved_quantity += product_agents.get(i).reserved_quantity;
                 }
