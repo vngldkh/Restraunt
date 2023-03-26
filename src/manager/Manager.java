@@ -1,5 +1,6 @@
 package manager;
 
+import process.Manual;
 import simulation.Simulation;
 import visitor.VisitorAgent;
 
@@ -12,8 +13,17 @@ public class Manager {
     public Manager(Simulation simulation) {
         this.simulation = simulation;
     }
+
     public Menu ProvideMenu() {
         return new Menu(simulation.getRestaurant().getMenu());
+    }
+
+    public Handbook ProvideHandBook() {
+        return new Handbook(simulation.getRestaurant().getDishCards());
+    }
+
+    public Manual ProvideManual() {
+        return new Manual(simulation.getRestaurant().getOperations());
     }
 
     public void AcceptOrder(VisitorAgent visitor, ArrayList<MenuDish> order) {
