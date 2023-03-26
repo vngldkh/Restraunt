@@ -1,11 +1,12 @@
 package manager;
 
+import process.Operation;
 import process.OperationType;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public record DishCard(int card_id, String dish_name,
-                       Date card_time, int equip_type,
-                       OperationType[] operations) {
+                       String description, LocalDateTime card_time,
+                       ArrayList<Operation> operations) {
 }
