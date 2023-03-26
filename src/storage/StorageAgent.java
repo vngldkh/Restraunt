@@ -22,7 +22,7 @@ public class StorageAgent {
         }
     }
 
-    public ProductTypeAgent ReserveProduct(int prod_type, int requested_quantity, LocalDateTime current_time) {
+    public ProductTypeAgent ReserveProduct(int prod_type, double requested_quantity) {
         if (!storage.containsKey(prod_type)) {
             return new ProductTypeAgent(simulation, prod_type, new ArrayList<>(), requested_quantity);
         }

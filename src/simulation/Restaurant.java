@@ -3,6 +3,7 @@ package simulation;
 import manager.DishCard;
 import manager.Manager;
 import manager.MenuDish;
+import process.Equipment;
 import process.Operation;
 import storage.StorageAgent;
 import process.CookerAgent;
@@ -16,11 +17,11 @@ public class Restaurant {
     private Simulation simulation;
     private Manager manager;
     public CookerAgent[] cookers;
-    public EquipmentAgent[] equipments;
-    DishCard[] dish_cards;
-    ConcurrentHashMap<Integer, MenuDish> menu;
-    StorageAgent storage;
-    Operation[] operations;
+    private ConcurrentHashMap<Integer, EquipmentAgent> equipments;
+    private DishCard[] dishCards;
+    private ConcurrentHashMap<Integer, MenuDish> menu;
+    private StorageAgent storage;
+    private Operation[] operations;
 
     public ConcurrentHashMap<Integer, MenuDish> getMenu() {
         return menu;
@@ -35,10 +36,18 @@ public class Restaurant {
     }
 
     public DishCard[] getDishCards() {
-        return dish_cards;
+        return dishCards;
     }
 
     public Operation[] getOperations() {
         return operations;
+    }
+
+    public CookerAgent[] getCookers() {
+        return cookers;
+    }
+
+    public ConcurrentHashMap<Integer, EquipmentAgent> getEquipments() {
+        return equipments;
     }
 }
