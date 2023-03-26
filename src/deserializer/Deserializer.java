@@ -89,7 +89,7 @@ public class Deserializer {
 
 
     public ArrayList<ProductType> productTypeDeserialize() {
-        File input = new File("./input/productTypes.txt");
+        File input = new File("./input/product_types.txt");
         ArrayList<ProductType> arrayOfProductTypes = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -129,7 +129,7 @@ public class Deserializer {
     }
 
     public ArrayList<Equipment> equipmentDeserialize() {
-        File input = new File("./input/equipments.txt");
+        File input = new File("./input/equipment.txt");
         ArrayList<Equipment> arrayOfEquipment = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -174,7 +174,7 @@ public class Deserializer {
     }
 
     public ArrayList<EquipmentType> equipmentTypesDeserialize() {
-        File input = new File("./input/equipmentTypes.txt");
+        File input = new File("./input/equipment_types.txt");
         ArrayList<EquipmentType> arrayOfEquipmentTypes = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -209,7 +209,7 @@ public class Deserializer {
     }
 
     public ArrayList<Visitor> visitorOrdersDeserialize() {
-        File input = new File("./input/visitorOrders.txt");
+        File input = new File("./input/visitor_orders.txt");
         ArrayList<Visitor> arrayOfVisitorOrders = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -309,7 +309,41 @@ public class Deserializer {
     }
 
     public ArrayList<OperationType> operationsDeserialize() {
-        File input = new File("./input/operations.txt");
+        File input = new File("./input/operation_types.txt");
+        ArrayList<OperationType> arrayOfOperations = new ArrayList<>();
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+
+            JsonArray jsonArrayOfOperations = fileObject.get("operation_types").getAsJsonArray();
+            for (JsonElement operationElement : jsonArrayOfOperations) {
+                JsonObject operationJsonObject = operationElement.getAsJsonObject();
+
+                int oper_type_id = 0;
+                String oper_type_name = null;
+
+                if (operationJsonObject.has("oper_type_id")) {
+                    oper_type_id = operationJsonObject.get("oper_type_id").getAsInt();
+                }
+                if (operationJsonObject.has("oper_type_name")) {
+                    oper_type_name = operationJsonObject.get("oper_type_name").getAsString();
+                }
+
+                OperationType operation = new OperationType(oper_type_id, oper_type_name);
+                arrayOfOperations.add(operation);
+            }
+        } catch (FileNotFoundException error) {
+            System.err.println("Error: input file not found!");
+            error.printStackTrace();
+        } catch (Exception error) {
+            System.err.println("Error: specific problem!");
+            error.printStackTrace();
+        }
+        return arrayOfOperations;
+    }
+
+    public ArrayList<Menu> operationsDeserialize() {
+        File input = new File("./input/operation_types.txt");
         ArrayList<OperationType> arrayOfOperations = new ArrayList<>();
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
