@@ -11,6 +11,7 @@ public class OrderAgent implements Runnable {
     Simulation simulation;
     visitor.VisitorAgent customer;
     ArrayList<MenuDish> orderedDishes;
+    private static Handbook handbook;
 
     OrderAgent(Simulation simulation, VisitorAgent customer, ArrayList<MenuDish> orderedDishes) {
         this.customer = customer;
