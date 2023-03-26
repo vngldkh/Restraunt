@@ -1,7 +1,4 @@
 package process;
 
-public class Cooker {
-    int cook_id;
-    String cook_name;
-    Boolean cook_active;
+public record Cooker(int cookId, String cookName, Boolean cookActive) {
 }
