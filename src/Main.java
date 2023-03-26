@@ -1,4 +1,7 @@
 import deserializer.Deserializer;
+import deserializer.OperationID;
+import deserializer.ProccessSerialized;
+import deserializer.ProcessElement;
 import manager.DishCard;
 import manager.MenuDish;
 import process.Cooker;
@@ -15,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import com.google.gson.*;
 
 public class Main {
 
@@ -56,9 +61,7 @@ public class Main {
         dishCards = deserializerDishCards.dishCardsDeserialize();
         
 
-        Simulation simulation = new Simulation(LocalDateTime.parse( "2023-02-28T10:12:37", DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                products, cookers, equipment, operations, dishCards, menuDishes, visitors);
-        ExecutorService thread = Executors.newSingleThreadExecutor();
+        Simulation simulation = new Simulation(LocalDateTime.parse( "2023-02-28T10:12:37", DateTimeFormatter.ISO_LOCAL_DATE_TIME), products, cookers, equipment, operations, dishCards, menuDishes, visitors);
         simulation.run();
     }
 }
