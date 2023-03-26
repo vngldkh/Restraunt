@@ -7,6 +7,7 @@ import storage.StorageAgent;
 import process.CookerAgent;
 import process.EquipmentAgent;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -16,10 +17,10 @@ public class Restaurant {
     private CookerAgent[] cookers;
     private EquipmentAgent[] equipments;
     DishCard[] dish_cards;
-    CopyOnWriteArrayList<MenuDish> menu;
+    ConcurrentHashMap<Integer, MenuDish> menu;
     StorageAgent storage;
 
-    public CopyOnWriteArrayList<MenuDish> getMenu() {
+    public ConcurrentHashMap<Integer, MenuDish> getMenu() {
         return menu;
     }
 
