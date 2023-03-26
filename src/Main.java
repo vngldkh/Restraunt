@@ -1,4 +1,6 @@
 import deserializer.Deserializer;
+import manager.DishCard;
+import manager.MenuDish;
 import process.Cooker;
 import process.Equipment;
 import process.EquipmentType;
@@ -39,6 +41,14 @@ public class Main {
         ArrayList<OperationType> operations = new ArrayList<>();
         Deserializer deserializerOperations = new Deserializer();
         operations = deserializerOperations.operationsDeserialize();
+
+        ArrayList<MenuDish> menuDishes = new ArrayList<>();
+        Deserializer deserializerMenuDishes = new Deserializer();
+        menuDishes = deserializerMenuDishes.menuDishesDeserialize();
+
+        ArrayList<DishCard> dishCards = new ArrayList<>();
+        Deserializer deserializerDishCards = new Deserializer();
+        dishCards = deserializerDishCards.dishCardsDeserialize();
 
         int check = 0;
     // TODO: replace snake_case in the classes with camelCase
