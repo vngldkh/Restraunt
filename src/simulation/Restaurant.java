@@ -7,16 +7,19 @@ import storage.StorageAgent;
 import process.CookerAgent;
 import process.EquipmentAgent;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.LinkedBlockingDeque;
+
 public class Restaurant {
     private Simulation simulation;
     private Manager manager;
     private CookerAgent[] cookers;
     private EquipmentAgent[] equipments;
     DishCard[] dish_cards;
-    MenuDish[] menu;
+    CopyOnWriteArrayList<MenuDish> menu;
     StorageAgent storage;
 
-    public MenuDish[] getMenu() {
+    public CopyOnWriteArrayList<MenuDish> getMenu() {
         return menu;
     }
 
