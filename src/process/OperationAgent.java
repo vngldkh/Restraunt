@@ -44,7 +44,7 @@ public class OperationAgent implements Runnable {
             return;
         }
 
-        OperProduct[] operProducts = operation.oper_products();
+        ArrayList<OperProduct> operProducts = operation.oper_products();
         var storage = simulation.getRestaurant().getStorage();
         for (var operProduct : operProducts) {
             var productTypeAgent = storage.ReserveProduct(operProduct.prod_type(),

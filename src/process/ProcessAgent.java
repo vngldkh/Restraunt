@@ -31,10 +31,10 @@ public class ProcessAgent implements Runnable {
         timeStart = simulation.getCurrentTime();
 
         Manual manual = simulation.getRestaurant().getManager().provideManual();
-        OperationType[] operationTypes = dishCard.operations();
+        ArrayList<Operation> operationTypes = dishCard.operations();
         operationAgents = new ArrayList<>();
         for (var operationType : operationTypes) {
-            Operation operation = manual.getOperation(operationType.oper_type_id());
+            Operation operation = manual.getOperation(operationType.oper_type());
             OperationAgent operationAgent = new OperationAgent(simulation, operation, dishCard.card_id());
             operationAgents.add(operationAgent);
         }
