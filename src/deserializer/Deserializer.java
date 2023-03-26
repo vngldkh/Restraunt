@@ -1,7 +1,6 @@
 package deserializer;
 
-import process.Equipment;
-import process.EquipmentType;
+import process.*;
 import storage.Product;
 import com.google.gson.*;
 import storage.ProductType;
@@ -140,10 +139,14 @@ public class Deserializer {
             for (JsonElement equipmentElement : jsonArrayOfProducts) {
                 JsonObject equipmentJsonObject = equipmentElement.getAsJsonObject();
 
+                int equip_id = 0;
                 int equip_type = 0;
                 String equip_name = null;
                 Boolean equip_active = false;
 
+                if (equipmentJsonObject.has("equip_id")) {
+                    equip_id = equipmentJsonObject.get("equip_id").getAsInt();
+                }
                 if (equipmentJsonObject.has("equip_type")) {
                     equip_type = equipmentJsonObject.get("equip_type").getAsInt();
                 }
@@ -154,7 +157,8 @@ public class Deserializer {
                     equip_active = equipmentJsonObject.get("equip_active").getAsBoolean();
                 }
 
-                Equipment equipment = new Equipment(equip_type,
+                Equipment equipment = new Equipment(equip_id,
+                        equip_type,
                         equip_name,
                         equip_active);
                 arrayOfEquipment.add(equipment);
@@ -211,15 +215,15 @@ public class Deserializer {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
 
-            JsonArray jsonArrayOfProducts = fileObject.get("visitors_orders").getAsJsonArray();
-            for (JsonElement visitorOrderElement : jsonArrayOfProducts) {
+            JsonArray jsonArrayOfVisitors = fileObject.get("visitors_orders").getAsJsonArray();
+            for (JsonElement visitorOrderElement : jsonArrayOfVisitors) {
                 JsonObject visitorOrderJsonObject = visitorOrderElement.getAsJsonObject();
 
                 String name = null;
                 String started = null;
                 String ended = null;
                 int total = 0;
-                VisOrdDish[] dishes = null;
+                ArrayList<VisOrdDish> dishes = new ArrayList<>();
 
                 if (visitorOrderJsonObject.has("vis_name")) {
                     name = visitorOrderJsonObject.get("vis_name").getAsString();
@@ -227,10 +231,35 @@ public class Deserializer {
                 if (visitorOrderJsonObject.has("vis_ord_started")) {
                     started = visitorOrderJsonObject.get("vis_ord_started").getAsString();
                 }
+                if (visitorOrderJsonObject.has("vis_ord_ended")) {
+                    ended = visitorOrderJsonObject.get("vis_ord_ended").getAsString();
+                }
+                if (visitorOrderJsonObject.has("vis_ord_total")) {
+                    total = visitorOrderJsonObject.get("vis_ord_total").getAsInt();
+                }
 
-                //EquipmentType equipmentTypes = new EquipmentType(equip_type_id,
-                //        equip_type_name);
-                //arrayOfVisitorOrders.add(equipmentTypes);
+                JsonArray jsonArrayOfVisitorDishes = visitorOrderJsonObject.get("vis_ord_dishes").getAsJsonArray();
+                for (JsonElement visitorDishElement : jsonArrayOfVisitorDishes) {
+                    JsonObject visitorDishJsonObject = visitorDishElement.getAsJsonObject();
+
+                    int ord_dish_id = 0;
+                    int menu_dish = 0;
+                    if (visitorDishJsonObject.has("ord_dish_id")) {
+                        ord_dish_id = visitorDishJsonObject.get("ord_dish_id").getAsInt();
+                    }
+                    if (visitorDishJsonObject.has("menu_dish")) {
+                        menu_dish = visitorDishJsonObject.get("menu_dish").getAsInt();
+                    }
+
+                    VisOrdDish visOrdDish = new VisOrdDish(ord_dish_id, menu_dish);
+                    dishes.add(visOrdDish);
+                }
+
+                LocalDateTime date1 = LocalDateTime.parse(started, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                LocalDateTime date2 = LocalDateTime.parse(ended, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                Visitor visitor = new Visitor(name, date1, date2, total, dishes);
+                arrayOfVisitorOrders.add(visitor);
             }
         } catch (FileNotFoundException error) {
             System.err.println("Error: input file not found!");
@@ -241,15 +270,75 @@ public class Deserializer {
         }
         return arrayOfVisitorOrders;
     }
-   /* public void serialize(ArrayList<Example> ex) {
 
-        Gson gson = new Gson();
-        //String myJson = gson.toJson(ex);
-        //System.out.println(myJson);
-        try (FileWriter writer = new FileWriter("output.json")) {
-            gson.toJson(ex, writer);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public ArrayList<Cooker> cookersDeserialize() {
+        File input = new File("./input/cookers.txt");
+        ArrayList<Cooker> arrayOfCookers = new ArrayList<>();
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+
+            JsonArray jsonArrayOfCookers = fileObject.get("cookers").getAsJsonArray();
+            for (JsonElement cookerElement : jsonArrayOfCookers) {
+                JsonObject cookerJsonObject = cookerElement.getAsJsonObject();
+
+                int cook_id = 0;
+                String cook_name = null;
+                Boolean cook_active = false;
+
+                if (cookerJsonObject.has("cook_id")) {
+                    cook_id = cookerJsonObject.get("cook_id").getAsInt();
+                }
+                if (cookerJsonObject.has("cook_name")) {
+                    cook_name = cookerJsonObject.get("cook_name").getAsString();
+                }
+                if (cookerJsonObject.has("cook_active")) {
+                    cook_active = cookerJsonObject.get("cook_active").getAsBoolean();
+                }
+                Cooker cooker = new Cooker(cook_id, cook_name, cook_active);
+                arrayOfCookers.add(cooker);
+            }
+        } catch (FileNotFoundException error) {
+            System.err.println("Error: input file not found!");
+            error.printStackTrace();
+        } catch (Exception error) {
+            System.err.println("Error: specific problem!");
+            error.printStackTrace();
         }
-    }*/
+        return arrayOfCookers;
+    }
+
+    public ArrayList<OperationType> operationsDeserialize() {
+        File input = new File("./input/operations.txt");
+        ArrayList<OperationType> arrayOfOperations = new ArrayList<>();
+        try {
+            JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
+            JsonObject fileObject = fileElement.getAsJsonObject();
+
+            JsonArray jsonArrayOfOperations = fileObject.get("operation_types").getAsJsonArray();
+            for (JsonElement operationElement : jsonArrayOfOperations) {
+                JsonObject operationJsonObject = operationElement.getAsJsonObject();
+
+                int oper_type_id = 0;
+                String oper_type_name = null;
+
+                if (operationJsonObject.has("oper_type_id")) {
+                    oper_type_id = operationJsonObject.get("oper_type_id").getAsInt();
+                }
+                if (operationJsonObject.has("oper_type_name")) {
+                    oper_type_name = operationJsonObject.get("oper_type_name").getAsString();
+                }
+
+                OperationType operation = new OperationType(oper_type_id, oper_type_name);
+                arrayOfOperations.add(operation);
+            }
+        } catch (FileNotFoundException error) {
+            System.err.println("Error: input file not found!");
+            error.printStackTrace();
+        } catch (Exception error) {
+            System.err.println("Error: specific problem!");
+            error.printStackTrace();
+        }
+        return arrayOfOperations;
+    }
 }
