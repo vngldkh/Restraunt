@@ -1,9 +1,13 @@
 package manager;
 
-import process.Cooker;
-import process.CookerAgent;
-import process.EquipmentAgent;
-import process.Manual;
+import dish.card.Handbook;
+import dish.menu.Menu;
+import dish.menu.MenuDish;
+import order.OrderAgent;
+import cooker.Cooker;
+import cooker.CookerAgent;
+import equipment.EquipmentAgent;
+import equipment.Manual;
 import simulation.Simulation;
 import visitor.VisitorAgent;
 

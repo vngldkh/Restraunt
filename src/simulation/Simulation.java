@@ -1,14 +1,15 @@
 package simulation;
 
 import com.google.gson.Gson;
-import deserializer.*;
-import manager.DishCard;
-import manager.MenuDish;
-import process.Cooker;
-import process.Equipment;
-import process.OperationType;
-import process.ProcessAgent;
-import storage.Product;
+import serialization.*;
+import dish.card.DishCard;
+import dish.menu.MenuDish;
+import cooker.Cooker;
+import equipment.Equipment;
+import order.process.operation.OperationType;
+import order.process.ProcessAgent;
+import serialization.entities.*;
+import storage.product.Product;
 import visitor.Visitor;
 import visitor.VisitorAgent;
 

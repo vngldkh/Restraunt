@@ -1,9 +1,9 @@
 package visitor;
 
 import manager.Manager;
-import manager.Menu;
-import manager.MenuDish;
-import manager.OrderAgent;
+import dish.menu.Menu;
+import dish.menu.MenuDish;
+import order.OrderAgent;
 import simulation.Simulation;
 
 import java.util.ArrayList;

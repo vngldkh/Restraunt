@@ -1,63 +1,76 @@
-import deserializer.Deserializer;
-import deserializer.OperationID;
-import deserializer.ProcessElement;
-import manager.DishCard;
-import manager.MenuDish;
-import process.Cooker;
-import process.Equipment;
-import process.EquipmentType;
-import process.OperationType;
+import serialization.Deserializer;
+import dish.card.DishCard;
+import dish.menu.MenuDish;
+import cooker.Cooker;
+import equipment.Equipment;
+import equipment.EquipmentType;
+import order.process.operation.OperationType;
 import simulation.Simulation;
-import storage.Product;
-import storage.ProductType;
+import storage.product.Product;
+import storage.product.ProductType;
 import visitor.Visitor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.google.gson.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<Product> products = new ArrayList<>();
-        Deserializer deserializerProducts = new Deserializer();
-        products = deserializerProducts.productDeserialize();
+        Deserializer deserializer = new Deserializer();
+        ArrayList<Product> products = deserializer.productDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<ProductType> productTypes = new ArrayList<>();
-        Deserializer deserializerProductTypes = new Deserializer();
-        productTypes = deserializerProductTypes.productTypeDeserialize();
+        ArrayList<ProductType> productTypes = deserializer.productTypeDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<Equipment> equipment = new ArrayList<>();
-        Deserializer deserializerEquipment = new Deserializer();
-        equipment = deserializerEquipment.equipmentDeserialize();
+        ArrayList<Equipment> equipment = deserializer.equipmentDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<EquipmentType> equipmentTypes = new ArrayList<>();
-        Deserializer deserializerEquipmentTypes = new Deserializer();
-        equipmentTypes = deserializerEquipmentTypes.equipmentTypesDeserialize();
+        ArrayList<EquipmentType> equipmentTypes = deserializer.equipmentTypesDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<Visitor> visitors = new ArrayList<>();
-        Deserializer deserializerVisitors = new Deserializer();
-        visitors = deserializerVisitors.visitorOrdersDeserialize();
+        ArrayList<Visitor> visitors = deserializer.visitorOrdersDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<Cooker> cookers = new ArrayList<>();
-        Deserializer deserializerCookers = new Deserializer();
-        cookers = deserializerCookers.cookersDeserialize();
+        ArrayList<Cooker> cookers = deserializer.cookersDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<OperationType> operations = new ArrayList<>();
-        Deserializer deserializerOperations = new Deserializer();
-        operations = deserializerOperations.operationsDeserialize();
+        ArrayList<OperationType> operations = deserializer.operationsDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<MenuDish> menuDishes = new ArrayList<>();
-        Deserializer deserializerMenuDishes = new Deserializer();
-        menuDishes = deserializerMenuDishes.menuDishesDeserialize();
+        ArrayList<MenuDish> menuDishes = deserializer.menuDishesDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
-        ArrayList<DishCard> dishCards = new ArrayList<>();
-        Deserializer deserializerDishCards = new Deserializer();
-        dishCards = deserializerDishCards.dishCardsDeserialize();
+        ArrayList<DishCard> dishCards = deserializer.dishCardsDeserialize();
+        if (deserializer.hadMissed()) {
+            System.err.println("Error.txt: Пропущено обязательное поле.");
+            return;
+        }
 
 
         Simulation simulation = new Simulation(LocalDateTime.parse( "2023-02-28T10:12:37", DateTimeFormatter.ISO_LOCAL_DATE_TIME), products, cookers, equipment, operations, dishCards, menuDishes, visitors);

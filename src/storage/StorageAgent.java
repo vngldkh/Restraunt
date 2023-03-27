@@ -3,10 +3,12 @@ package storage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import simulation.Simulation;
+import storage.product.Product;
+import storage.product.ProductTypeAgent;
 
 public class StorageAgent {
     // key - product_type, value - list of that type's products (sorted in ascending order of expiration time).
-    final HashMap<Integer, ArrayList<Product>> storage;
+    public final HashMap<Integer, ArrayList<Product>> storage;
     final Simulation simulation;
 
     public StorageAgent(Simulation simulation, ArrayList<Product> products) {

@@ -1,11 +1,14 @@
 package simulation;
 
-import manager.DishCard;
+import cooker.Cooker;
+import dish.card.DishCard;
+import equipment.Equipment;
+import equipment.EquipmentAgent;
 import manager.Manager;
-import manager.MenuDish;
-import manager.OrderAgent;
-import process.*;
-import storage.Product;
+import dish.menu.MenuDish;
+import order.OrderAgent;
+import order.process.operation.OperationType;
+import storage.product.Product;
 import storage.StorageAgent;
 import visitor.Visitor;
 import visitor.VisitorAgent;
